@@ -1,0 +1,38 @@
+name: snk
+
+on:
+  # run automatically every 24 hours
+  schedule:
+    - cron: "0 */24 * * *"
+
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/snk.yml"
+
+  workflow_dispatch:
+
+jobs:
+  generate:
+    permissions:
+      contents: write
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
+
+    steps:
+      - name: generate github-snake.svg
+        uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/sMnosWXZe3D4ChEf5zLyhYFhmJUJewLsxi9j7F9PnUYapwo27ZWuqvvruCaCtbszdAogFaoNeTdZxQHwwdcUJxKmWsxNMcHDw5ixtcqDNHCUd4wb4iSgNycjNxZ5xZHk.svg
+            dist/RjDhbs4QyviDbrsMDK5J5MqPS27fNTMhYek2kW3TLL4cTKwHVSEtwHa5cn4MTyodNuFrQapeqJhHXU4RxirbtnfjycYRMtdZKTWDNyAMrcwvQcH3NSxNRpzViT4LTHqk.svg?palette=github-dark
+
+      - name: push .svg to the output branch
+        uses: crazy-max/ghaction-github-pages@v5
+        with:
+          target_branch: gkhwiefd
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
